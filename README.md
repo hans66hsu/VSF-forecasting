@@ -1,8 +1,35 @@
 # Variational Streaming Flow
 
+<p align="center">
+  <a href="https://arxiv.org/abs/2610.00976">
+    <img src="https://img.shields.io/badge/Paper-arXiv%3A2610.00976-B31B1B?logo=arxiv&amp;logoColor=white" alt="Paper: arXiv 2610.00976">
+  </a>
+  <a href="https://github.com/hans66hsu/VSF-forecasting">
+    <img src="https://img.shields.io/badge/GitHub-Code-181717?logo=github&amp;logoColor=white" alt="GitHub repository">
+  </a>
+  <img src="https://img.shields.io/badge/Project%20Page-Coming%20Soon-6B7280" alt="Project page coming soon">
+</p>
+
 Code for [**Variational Streaming Flow: Probabilistic Forecasting in Physical Time**](https://arxiv.org/abs/2610.00976). The repository supports dynamical-system forecasting and visual world models built on frozen LeWM representations.
 
-## Visualizations
+## Abstract
+
+Probabilistic forecasting is important for predicting complex dynamical systems because
+intrinsic randomness and incomplete observations can cause the same observed state to evolve
+into multiple plausible futures. While flow matching is a flexible approach for probabilistic
+forecasting, it is computationally expensive. Streaming flow (SF) reformulates this approach
+to model temporal evolution efficiently by learning a continuous velocity field directly in
+physical time. However, SF learns a deterministic velocity field. Thus, it provides only a
+single future trajectory for a given fixed initial state and observation history. To overcome
+this limitation, we introduce Variational Streaming Flow (VSF). Our approach learns a
+latent distribution that is conditioned on the dynamics of interest. In turn, this enables
+probabilistic forecasting. Importantly, we retain the computational efficiency of SF by
+generating in physical time. Across deterministic and stochastic dynamical systems, VSF
+demonstrates superior predictive accuracy and distributional fidelity. We demonstrate the
+advantage for both long-horizon rollouts exceeding 1,000 steps, and settings with bifurcating
+dynamics. Moreover, VSF can be integrated into existing Joint-Embedding Predictive
+Architecture (JEPA)-based world models as a plug-and-play predictor to improve temporal
+dynamics and goal-directed success rate in navigation, motion planning, and manipulation.
 
 <table>
   <tbody><tr>
