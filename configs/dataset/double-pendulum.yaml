@@ -1,0 +1,32 @@
+name: double-pendulum
+kind: deterministic
+file_name: double_pendulum.npz
+state_key: cartesian_states
+state_names: [x1, y1, x2, y2, vx1, vy1, vx2, vy2]
+metrics: [rmse, mae, crps]
+regenerate: false
+
+num_trajectories: 200
+t_max: 12.0
+dt: 0.01 #0.01
+seed: 0
+theta1_range: [-1.5707963, 1.5707963]
+theta2_range: [-1.5707963, 1.5707963]
+max_initial_angle_difference: null
+
+omega1_range: [-0.5, 0.5]
+omega2_range: [-0.5, 0.5]
+
+m1: 1.0
+m2: 1.0
+l1: 1.0
+l2: 1.0
+g: 9.81
+
+train_fraction: 0.7
+val_fraction: 0.15
+obs_horizon: 4
+pred_horizon: 20
+rollout_horizon: 10
+eval_anchor_index: 150
+eval_total_future_steps: 1000

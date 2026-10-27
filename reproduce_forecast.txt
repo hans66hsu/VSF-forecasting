@@ -1,0 +1,29 @@
+# Double pendulum (perturbed SF std 0.1)
+python main.py dataset=double-pendulum models='[streaming_flow]' seeds='[100,107,125]' wandb.mode=online hydra.run.dir=outputs/iclr/reproduce_table20/sf
+python main.py dataset=double-pendulum models='[streaming_flow]' seeds='[100,107,125]' wandb.mode=online streaming_flow.initial_noise_state=0.1 hydra.run.dir=outputs/iclr/reproduce_table20/perturbed_sf
+python main.py dataset=double-pendulum models='[variational_streaming_flow]' seeds='[100,107,125]' dataset.rollout_horizon=19 wandb.mode=online variational_streaming_flow.sigma0=0.4 variational_streaming_flow.k=10.0 variational_streaming_flow.use_thick_tube=true hydra.run.dir=outputs/iclr/reproduce_table20/vsf
+
+# Deterministic Rössler (perturbed SF std 0.1)
+python main.py dataset=rossler-deter models='[streaming_flow]' seeds='[100,107,125]' wandb.mode=online hydra.run.dir=outputs/iclr/reproduce_table21/sf
+python main.py dataset=rossler-deter models='[streaming_flow]' seeds='[100,107,125]' wandb.mode=online streaming_flow.initial_noise_state=0.1 hydra.run.dir=outputs/iclr/reproduce_table21/perturbed_sf
+python main.py dataset=rossler-deter models='[variational_streaming_flow]' seeds='[100,107,125]' dataset.rollout_horizon=19 wandb.mode=online variational_streaming_flow.sigma0=0.4 variational_streaming_flow.k=10.0 variational_streaming_flow.use_thick_tube=true hydra.run.dir=outputs/iclr/reproduce_table21/vsf
+
+# Stochastic Rössler (perturbed SF std 0.1)
+python main.py dataset=rossler models='[streaming_flow]' seeds='[100,107,125]' train.num_epochs=18 wandb.mode=online hydra.run.dir=outputs/iclr/reproduce_table22/sf
+python main.py dataset=rossler models='[streaming_flow]' seeds='[100,107,125]' train.num_epochs=18 wandb.mode=online streaming_flow.initial_noise_state=0.1 hydra.run.dir=outputs/iclr/reproduce_table22/perturbed_sf
+python main.py dataset=rossler models='[variational_streaming_flow]' seeds='[100,107,125]' train.num_epochs=18 dataset.rollout_horizon=19 wandb.mode=online variational_streaming_flow.sigma0=0.4 variational_streaming_flow.k=10.0 variational_streaming_flow.use_thick_tube=true hydra.run.dir=outputs/iclr/reproduce_table22/vsf
+
+# Deterministic Lorenz, 1000 steps (perturbed SF std 0.1)
+python main.py dataset=lorenz-deter models='[streaming_flow]' seeds='[100,107,125]' wandb.mode=online hydra.run.dir=outputs/iclr/reproduce_table23/sf
+python main.py dataset=lorenz-deter models='[streaming_flow]' seeds='[100,107,125]' wandb.mode=online streaming_flow.initial_noise_state=0.1 hydra.run.dir=outputs/iclr/reproduce_table23/perturbed_sf
+python main.py dataset=lorenz-deter models='[variational_streaming_flow]' seeds='[100,107,125]' dataset.rollout_horizon=1 wandb.mode=online variational_streaming_flow.sigma0=0.0 variational_streaming_flow.k=0.0 variational_streaming_flow.use_thick_tube=false hydra.run.dir=outputs/iclr/reproduce_table23/vsf
+
+# Stochastic Lorenz, 1000 steps (perturbed SF std 0.01)
+python main.py dataset=lorenz models='[streaming_flow]' seeds='[100,107,125]' train.num_epochs=18 dataset.rollout_horizon=1 wandb.mode=online hydra.run.dir=outputs/iclr/reproduce_table24/sf
+python main.py dataset=lorenz models='[streaming_flow]' seeds='[100,107,125]' train.num_epochs=18 dataset.rollout_horizon=1 wandb.mode=online streaming_flow.initial_noise_state=0.01 hydra.run.dir=outputs/iclr/reproduce_table24/perturbed_sf
+python main.py dataset=lorenz models='[variational_streaming_flow]' seeds='[100,107,125]' train.num_epochs=18 dataset.pred_horizon=2 dataset.rollout_horizon=1 wandb.mode=online variational_streaming_flow.sigma0=0.0 variational_streaming_flow.k=0.0 variational_streaming_flow.use_thick_tube=false hydra.run.dir=outputs/iclr/reproduce_table24/vsf
+
+# Stochastic Lorenz, 2500 steps (perturbed SF std 0.01)
+python main.py dataset=lorenz models='[streaming_flow]' seeds='[100,107,125]' train.num_epochs=18 dataset.rollout_horizon=1 dataset.eval_total_future_steps=2500 wandb.mode=online hydra.run.dir=outputs/iclr/reproduce_table25/sf
+python main.py dataset=lorenz models='[streaming_flow]' seeds='[100,107,125]' train.num_epochs=18 dataset.rollout_horizon=1 dataset.eval_total_future_steps=2500 wandb.mode=online streaming_flow.initial_noise_state=0.01 hydra.run.dir=outputs/iclr/reproduce_table25/perturbed_sf
+python main.py dataset=lorenz models='[variational_streaming_flow]' seeds='[100,107,125]' train.num_epochs=18 dataset.pred_horizon=2 dataset.rollout_horizon=1 dataset.eval_total_future_steps=2500 wandb.mode=online variational_streaming_flow.sigma0=0.0 variational_streaming_flow.k=0.0 variational_streaming_flow.use_thick_tube=false hydra.run.dir=outputs/iclr/reproduce_table25/vsf

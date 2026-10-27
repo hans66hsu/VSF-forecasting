@@ -1,0 +1,39 @@
+name: cube
+path: ${data_dir}/cube_single_expert.h5
+
+# keys_to_load: [pixels, action, observation]
+# Evaluation columns to cache in memory and fit normalization scalers for.
+keys_to_cache: [action]
+
+# LeWM reference clip: four observations at [0, 5, 10, 15].
+num_steps: 4
+frameskip: 5
+
+image_size: 224
+
+world:
+  env_name: swm/OGBCube-v0
+  env_type: single
+  ob_type: states
+  multiview: false
+  width: ${dataset.image_size}
+  height: ${dataset.image_size}
+  visualize_info: false
+  terminate_at_goal: true
+
+eval_callables:
+  - method: set_state
+    args:
+      qpos:
+        value: qpos
+      qvel:
+        value: qvel
+  - method: set_target_pos
+    args:
+      cube_id:
+        value: 0
+        in_dataset: false
+      target_pos:
+        value: goal_privileged_block_0_pos
+      target_quat:
+        value: goal_privileged_block_0_quat

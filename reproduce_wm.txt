@@ -1,0 +1,19 @@
+# Cube (epoch 60)
+python main.py --config-name=world_model dataset=cube predictor.models='[ARPredictor]' seeds='[42,100,107]' hydra.run.dir=outputs/reproduce_table_wm/world_model_success_rate/cube/ARPredictor
+python main.py --config-name=world_model dataset=cube predictor.models='[SFPredictor]' seeds='[42,100,107]' hydra.run.dir=outputs/reproduce_table_wm/world_model_success_rate/cube/SFPredictor
+python main.py --config-name=world_model dataset=cube predictor.models='[VSFPredictor]' seeds='[42,100,107]' hydra.run.dir=outputs/reproduce_table_wm/world_model_success_rate/cube/VSFPredictor
+
+# PushT (epoch 60)
+python main.py --config-name=world_model dataset=pusht predictor.models='[ARPredictor]' seeds='[42,100,107]' hydra.run.dir=outputs/reproduce_table_wm/world_model_success_rate/pusht/ARPredictor
+python main.py --config-name=world_model dataset=pusht predictor.models='[SFPredictor]' seeds='[42,100,107]' hydra.run.dir=outputs/reproduce_table_wm/world_model_success_rate/pusht/SFPredictor
+python main.py --config-name=world_model dataset=pusht predictor.models='[VSFPredictor]' seeds='[42,100,107]' hydra.run.dir=outputs/reproduce_table_wm/world_model_success_rate/pusht/VSFPredictor
+
+# Reacher (epoch 90, VSF beta_kl=2.0e-3)
+python main.py --config-name=world_model dataset=reacher predictor.models='[ARPredictor]' seeds='[42,100,107]' train.epochs=90 hydra.run.dir=outputs/reproduce_table_wm/world_model_success_rate/reacher/ARPredictor
+python main.py --config-name=world_model dataset=reacher predictor.models='[SFPredictor]' seeds='[42,100,107]' train.epochs=90 hydra.run.dir=outputs/reproduce_table_wm/world_model_success_rate/reacher/SFPredictor
+python main.py --config-name=world_model dataset=reacher predictor.models='[VSFPredictor]' seeds='[42,100,107]' train.epochs=90 variational_streaming_flow.beta_kl=2.0e-3 hydra.run.dir=outputs/reproduce_table_wm/world_model_success_rate/reacher/VSFPredictor
+
+# TwoRoom (epoch 90)
+python main.py --config-name=world_model dataset=tworoom predictor.models='[ARPredictor]' seeds='[42,100,107]' train.epochs=90 hydra.run.dir=outputs/reproduce_table_wm/world_model_success_rate/tworoom/ARPredictor
+python main.py --config-name=world_model dataset=tworoom predictor.models='[SFPredictor]' seeds='[42,100,107]' train.epochs=90 hydra.run.dir=outputs/reproduce_table_wm/world_model_success_rate/tworoom/SFPredictor
+python main.py --config-name=world_model dataset=tworoom predictor.models='[VSFPredictor]' seeds='[42,100,107]' train.epochs=90 hydra.run.dir=outputs/reproduce_table_wm/world_model_success_rate/tworoom/VSFPredictor

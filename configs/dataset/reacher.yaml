@@ -1,0 +1,28 @@
+name: reacher
+path: ${data_dir}/reacher.h5
+
+# keys_to_load: [pixels, action, observation]
+# Evaluation columns to cache in memory and fit normalization scalers for.
+keys_to_cache: [action]
+
+# LeWM reference clip: four observations at [0, 5, 10, 15].
+num_steps: 4
+frameskip: 5
+
+image_size: 224
+
+world:
+  env_name: swm/ReacherDMControl-v0
+  task: qpos_match
+
+eval_callables:
+  - method: set_state
+    args:
+      qpos:
+        value: qpos
+      qvel:
+        value: qvel
+  - method: set_target_qpos
+    args:
+      target_qpos:
+        value: goal_qpos

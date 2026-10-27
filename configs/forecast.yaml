@@ -1,0 +1,97 @@
+defaults:
+  - _self_
+  - dataset: double-pendulum
+
+seeds: [100]
+device: cuda:0
+data_dir: data
+
+models:
+  - streaming_flow
+  - variational_streaming_flow
+
+train:
+  num_epochs: 90
+  batch_size: 4096
+  lr: 1.0e-4
+  weight_decay: 0.0
+  warmup_steps: 200
+  num_workers: 0
+  pin_memory: false
+
+streaming_flow:
+  # Training noise schedule for standard streaming flow.
+  sigma0: 0.4
+  k: 10.0
+  sin_embedding_scale: 100.0
+  # Add noise to initial state
+  initial_noise_state: 0.0
+  add_noise_every_rollout: false
+
+variational_streaming_flow:
+  # Independent training noise schedule for variational streaming flow.
+  sigma0: 0.4
+  k: 10.0
+  latent_dim: 4
+  latent_feature_dim: 256
+  posterior_down_dims: [32, 64, 128]
+  beta_kl: 2.0e-3
+  latent_weight: 0.9
+  crps_num_samples: 8
+  crps_diversity_weight: 0.5
+  crps_beta: 1.999
+  # thick tube
+  use_thick_tube: true
+  thick_tube_p_original_noise: 0.0
+
+model:
+  unet:
+    diffusion_step_embed_dim: 256
+    down_dims: [64, 128, 256]
+    kernel_size: 5
+    n_groups: 8
+    dropout: 0.0
+
+eval:
+  enabled: true
+  # starting from which index
+  test_trajectory_index: 0
+  anchor_index: null
+  total_future_steps: null
+  num_contexts: null # null uses all test trajectories
+  pred_num_samples: 100
+  # Sample a fresh VSF latent at every rollout step.
+  vsf_resample_latent_each_step: false
+
+checkpoint:
+  enabled: true
+  # Use ./model to load matching models and train any that are missing.
+  load_dir: ./model
+  # load_dir: null
+
+wandb:
+  entity: #type your wandb
+  project: VSF
+  mode: disabled # online, offline, or disabled
+  name: null
+  tags: []
+  notes: null
+  resume: null
+  log_train_loss: true
+  log_trajectory_plots: true
+  log_overview_trajectory: true
+  overview_num_contexts: 3
+  log_paired_trajectory_grid: true
+  paired_grid_num_contexts: ${wandb.overview_num_contexts}
+  paired_grid_num_trajectories: 20
+  # null: Plot all state dimensions; [0,2]: Plot x and z dimension for [x,y,z].
+  trajectory_feature_indices: null
+
+hydra:
+  job:
+    chdir: true
+  run:
+    dir: outputs/${dataset.name}/${now:%Y-%m-%d_%H-%M-%S}
+  sweep:
+    dir: multirun/${now:%Y-%m-%d_%H-%M-%S}
+    subdir: ${hydra.job.num}

@@ -1,0 +1,25 @@
+name: tworoom
+path: ${data_dir}/tworoom.h5
+
+# keys_to_load: [pixels, action, proprio]
+# Evaluation columns to cache in memory and fit normalization scalers for.
+keys_to_cache: [action, proprio]
+
+# LeWM reference clip: four observations at [0, 5, 10, 15].
+num_steps: 4
+frameskip: 5
+
+image_size: 224
+
+world:
+  env_name: swm/TwoRoom-v1
+
+eval_callables:
+  - method: _set_state
+    args:
+      state:
+        value: proprio
+  - method: _set_goal_state
+    args:
+      goal_state:
+        value: goal_proprio

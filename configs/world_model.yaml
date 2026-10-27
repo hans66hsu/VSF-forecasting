@@ -1,0 +1,100 @@
+defaults:
+  - _self_
+  - dataset: pusht
+
+seeds: [100]
+device: cuda:0
+data_dir: data
+
+jepa:
+  checkpoint_dir: model/${dataset.name}
+  embed_dim: 192
+
+predictor:
+  models:
+    - ARPredictor #Leworldmodel
+    - SFPredictor
+    - VSFPredictor
+
+train:
+  # Final VSF checkpoint identity used by the default evaluation.
+  epochs: 60
+  batch_size: 4096 # LeWM ARPredictor: 128
+  num_workers: 6
+  pin_memory: true
+  lr: 1.0e-4
+  weight_decay: 0.0
+  train_fraction: 0.9
+  log_every: 100
+  resume: false
+
+variational_streaming_flow:
+  latent_dim: 4
+  latent_feature_dim: 256
+  beta_kl: 1.0 #reacher 2.0e-3
+  latent_weight: 0.9
+  crps_num_samples: 8
+  crps_diversity_weight: 0.5
+  crps_beta: 1.999
+  posterior:
+    hidden_dim: 64
+    num_layers: 2
+    num_heads: 2
+    mlp_dim: 256
+    dim_head: 32
+    dropout: 0.0
+
+model:
+  transformer:
+    hidden_dim: 128 # LeWM ARPredictor: 192
+    num_layers: 4 # LeWM ARPredictor: 6
+    num_heads: 4 # LeWM ARPredictor: 16
+    mlp_dim: 512 # LeWM ARPredictor: 2048
+    dim_head: 32 # LeWM ARPredictor: 64
+    dropout: 0.0 # LeWM ARPredictor: 0.1
+    diffusion_step_embed_dim: 128
+    sin_embedding_scale: 1.0
+
+eval:
+  epoch: ${train.epochs}
+  # Evaluate only the selected final checkpoint.
+  num_eval: 50
+  # How far ahead the target state comes from.
+  goal_offset_steps: 25
+  # Gives the policy up to 50 environment steps to reach that target.
+  eval_budget: 50
+  video: false
+  # Sample a fresh VSF latent at every rollout step.
+  vsf_resample_latent_each_step: false
+
+planning:
+  # Optimize over five transitions.
+  horizon: 5
+  # Execute all five selected blocks before planning again.
+  receding_horizon: 5
+  # Each transition consumes five consecutive raw actions.
+  # one model transition = 5 raw actions, with 5 transitions -> 25 environment steps
+  action_block: 5 # frameskip
+  solver:
+    # Maximum number of environments processed in one CEM batch.
+    batch_size: 250
+    # Sample 300 candidate action sequences per CEM iteration.
+    num_samples: 300
+    # Initial sampling scale around the candidate-action mean in normalized action space.
+    var_scale: 1.0
+    # Repeat the CEM sample/evaluate/update procedure 30 times.
+    n_steps: 30
+    # Keep the 30 lowest-cost candidates to update the sampling distribution.
+    topk: 30
+
+checkpoint:
+  load_dir: ./model
+
+hydra:
+  job:
+    chdir: true
+  run:
+    dir: outputs/${dataset.name}/${now:%Y-%m-%d_%H-%M-%S}
+  sweep:
+    dir: multirun/${now:%Y-%m-%d_%H-%M-%S}
+    subdir: ${hydra.job.num}

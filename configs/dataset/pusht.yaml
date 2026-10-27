@@ -1,0 +1,26 @@
+name: pusht
+path: ${data_dir}/pusht_expert_train.h5
+
+# keys_to_load: [pixels, action, proprio, state]
+# Evaluation columns to cache in memory and fit normalization scalers for.
+keys_to_cache: [action, proprio, state]
+
+# LeWM reference clip: four observations at [0, 5, 10, 15] and four
+# corresponding blocks made from twenty raw two-dimensional actions.
+num_steps: 4
+frameskip: 5
+
+image_size: 224
+
+world:
+  env_name: swm/PushT-v1
+
+eval_callables:
+  - method: _set_state
+    args:
+      state:
+        value: state
+  - method: _set_goal_state
+    args:
+      goal_state:
+        value: goal_state
