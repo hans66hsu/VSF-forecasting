@@ -130,7 +130,7 @@ python main.py --config-name=forecast dataset=rossler models='[variational_strea
 
 Replace `double-pendulum-broad` with `lorenz`, `lorenz-deter`, `rossler`, or `rossler-deter` to evaluate on another dynamical system. The command loads its matching checkpoint from `model/<dataset>/`, trains it if missing, evaluates it, and writes results under `outputs/<dataset>/<timestamp>/`.
 
-We include VSF configs for the forecasting tasks in [`reproduce_table_forecast.txt`](reproduce_table_forecast.txt).
+We include VSF configs for the forecasting tasks in [`reproduce_forecast.txt`](reproduce_forecast.txt).
 
 ### Weights & Biases
 
