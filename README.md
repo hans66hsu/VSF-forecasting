@@ -145,7 +145,7 @@ Add `wandb.entity=YOUR_ENTITY` when the run should belong to a specific user or 
 
 ## World Model
 
-`vsf_predictor.py` contains the implementation of VSF as world model predictor. Run VSF as a LeWM predictor on PushT tasks:
+`vsf_predictor.py` contains the implementation of VSF as a world model predictor. Run VSF as a LeWM predictor on PushT tasks:
 ```python
 python main.py --config-name=world_model dataset=pusht predictor.models='[VSFPredictor]'
 ```
