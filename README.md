@@ -1,4 +1,6 @@
-# Variational Streaming Flow
+<h1 align="center">Variational Streaming Flow:<br>
+  Probabilistic Forecasting in Physical Time
+</h1>
 
 <p align="center">
   <a href="https://arxiv.org/abs/2610.00976">
@@ -9,8 +11,6 @@
   </a>
   <img src="https://img.shields.io/badge/Project%20Page-Coming%20Soon-6B7280" alt="Project page coming soon">
 </p>
-
-Code for [**Variational Streaming Flow: Probabilistic Forecasting in Physical Time**](https://arxiv.org/abs/2610.00976). The repository supports dynamical-system forecasting and visual world models built on frozen LeWM representations.
 
 ## Abstract
 
@@ -38,10 +38,10 @@ dynamics and goal-directed success rate in navigation, motion planning, and mani
   </tr>
   <tr>
     <td align="center">
-      <img src="asset/vsf.gif" width="300" alt="VSF stochastic Rössler forecast" class="e-rte-image e-imginline">
+      <img src="asset/vsf.gif" width="250" alt="VSF stochastic Rössler forecast" class="e-rte-image e-imginline">
     </td>
     <td align="center">
-      <img src="asset/cube_task_042_vsf_latent_trajectory.gif" width="600" alt="VSF LeWM Cube planning rollout" class="e-rte-image e-imginline">
+      <img src="asset/cube_task_042_vsf_latent_trajectory.gif" width="450" alt="VSF LeWM Cube planning rollout" class="e-rte-image e-imginline">
     </td>
   </tr>
 </tbody></table>
@@ -57,20 +57,13 @@ conda env create -f env.yml
 conda activate vsf
 ```
 
-To update an existing environment:
-
-```bash
-conda env update -f env.yml --prune
-conda activate vsf
-```
-
 ## Dataset
 
-The default dataset root is `data/`. It can be changed with the Hydra override `data_dir=/path/to/data`.
+The default dataset root is `data/`. It can be changed with the override `data_dir=/path/to/data`.
 
 ### Dynamical systems
 
-The dynamical-system datasets do not need to be downloaded. If a configured `.npz` file is missing, the first training run simulates it and stores it in `data/`.
+The dynamical-system datasets do not need to be downloaded. The first training run simulates it and stores it in `data/`.
 
 Alternatively, one can generate the trajectory and its preview plots from the repository root. For example, to visualize the `double-pendulum` trajectory run:
 
@@ -82,7 +75,7 @@ To run the stochastic Rössler, run:
 ```python
 python src/datasets/rossler/data.py --config-path configs/dataset/rossler.yaml
 ```
-To run the fully observed, deterministic version, replace `-configs/dataset/rossler.yaml` with `configs/dataset/rossler-deter.yaml`. The command saves the dataset `.npz` file under `data/` and its preview plots under `outputs/<dataset>/`.
+To run the fully observed, deterministic version, replace `configs/dataset/rossler.yaml` with `configs/dataset/rossler-deter.yaml`. The command saves the dataset `.npz` file and its preview plots under `outputs/<dataset>/`.
 
 ### World model
 
@@ -130,11 +123,11 @@ python main.py --config-name=forecast dataset=rossler models='[variational_strea
 
 Replace `double-pendulum-broad` with `lorenz`, `lorenz-deter`, `rossler`, or `rossler-deter` to evaluate on another dynamical system. The command loads its matching checkpoint from `model/<dataset>/`, trains it if missing, evaluates it, and writes results under `outputs/<dataset>/<timestamp>/`.
 
-We include VSF configs for the forecasting tasks in [`reproduce_forecast.txt`](reproduce_forecast.txt).
+We include `variational_streaming_flow` and `streaming_flow` commands for the forecasting tasks in [`reproduce_forecast.txt`](reproduce_forecast.txt).
 
 ### Weights & Biases
 
-One can use Weights & Biases to visualize generated trajectories and monitor training progress. Logging is disabled by default. Log in once, then enable online logging with Hydra overrides:
+One can use Weights & Biases to visualize generated trajectories and monitor training progress:
 
 ```python
 wandb login
@@ -152,4 +145,4 @@ python main.py --config-name=world_model dataset=pusht predictor.models='[VSFPre
 
 You can choose `cube`, `pusht`, `reacher`, and `tworoom` for `dataset`. The command trains VSF and evaluates it with CEM planning. Results are saved under `outputs/<dataset>/<timestamp>/`.
 
-We include VSFPredictor configs for the world model planning in [`reproduce_wm.txt`](reproduce_wm.txt).
+We include `VSFPredictor`, `SFPredictor` and `ARPredictor` (the LeWM predictor) commands for world model planning in [`reproduce_wm.txt`](reproduce_wm.txt).
